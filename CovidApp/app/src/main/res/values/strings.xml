@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">CovidApp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="question1_kbyt">Trong vòng 14 ngày qua. Anh/chị có đến tỉnh thành phố, quốc gia nào?</string>
+    <string name="question2_kbyt">Trong vòng 14 ngày qua. Anh/chị có thấy xuất hiện ít nhất 1 trong các dấu hiệu: sốt ho, khó thở, viêm phổi, đau họng, mệt mỏi không?</string>
+    <string name="question3_kbyt">Trong vòng 14 ngày qua. Anh/chị có tiếp xúc với</string>
+    <string name="sub_question_3_1kbyt">Người bệnh hoặc nghi ngờ mắc COVID-19</string>
+    <string name="sub_question_3_2kbyt">Người từ nước có bệnh COVID-19</string>
+    <string name="sub_question_3_3kbyt">Người có biểu hiện : sốt, ho, khó thở, viêm phổi</string>
+    <string name="yes">Có</string>
+    <string name="no">Không</string>
+</resources>
