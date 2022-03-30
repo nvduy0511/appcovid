@@ -18,6 +18,7 @@
             android:background="#006466">
         </ImageButton>
         <TextView
+            android:id="@+id/tvTieuDe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Khai Báo Y Tế"

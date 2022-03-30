@@ -10,4 +10,6 @@
     <string name="sub_question_3_3kbyt">Người có biểu hiện : sốt, ho, khó thở, viêm phổi</string>
     <string name="yes">Có</string>
     <string name="no">Không</string>
+    <string name="dangNhap_yc">Vui lòng nhập số điện thoại để <b>đăng ký /đăng nhập</b> ứng dụng </string>
+    <string name="nhapOTP">Chúng tôi đã gửi <b>mã OTP</b> đến số điện thoại của bạn</string>
 </resources>
