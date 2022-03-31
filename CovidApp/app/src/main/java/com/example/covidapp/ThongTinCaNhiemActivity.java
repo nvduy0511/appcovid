@@ -5,6 +5,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 
 import com.example.covidapp.adapter.TinhThanhAdapter;
 import com.example.covidapp.adapter.ToKhaiYTeAdapter;
@@ -15,6 +17,7 @@ import java.util.List;
 
 public class ThongTinCaNhiemActivity extends AppCompatActivity {
 
+    private ImageButton ibtn_back;
     private RecyclerView rcv_thongTinTinhThanh;
     private TinhThanhAdapter tinhThanhAdapter;
     @Override
@@ -22,6 +25,16 @@ public class ThongTinCaNhiemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thong_tin_ca_nhiem);
         getSupportActionBar().hide();
+
+        ibtn_back = (ImageButton) findViewById(R.id.ibtn_backThongTinCaNhiem);
+        ibtn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+
         rcv_thongTinTinhThanh = (RecyclerView) findViewById(R.id.rcv_ThongTinCaNhiemTinhThanh);
 
         tinhThanhAdapter = new TinhThanhAdapter(this);

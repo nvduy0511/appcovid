@@ -9,15 +9,35 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CovidApp">
-        <activity android:name=".SplashActivity">
+        <activity
+            android:name=".ThongTinCaNhanActivity"
+            android:exported="false">
+
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+
+        </activity>
+        <activity
+            android:name=".HomeActivity"
+            android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DangNhapActivity">
+        <activity android:name=".SplashActivity">
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
+
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
         </activity>
+        <activity android:name=".DangNhapActivity" />
         <activity android:name=".EnterOTPActivity" />
         <activity android:name=".ThongTinCaNhiemActivity" />
         <activity android:name=".MainActivity" />
