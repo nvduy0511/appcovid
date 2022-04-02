@@ -10,22 +10,23 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.covidapp.R;
+import com.example.covidapp.model.ThongTinCaNhiem;
 import com.example.covidapp.model.TinhThanh;
-import com.example.covidapp.model.ToKhaiYTe;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class TinhThanhAdapter extends RecyclerView.Adapter<TinhThanhAdapter.TinhThanhViewHolder> {
 
     private Context mContext;
-    private List<TinhThanh> lsTinhThanh;
+    private ThongTinCaNhiem mThongTinCaNhiem;
     public TinhThanhAdapter(Context mContext) {
         this.mContext = mContext;
     }
 
-    public void setData(List<TinhThanh> ls)
+    public void setData(ThongTinCaNhiem thongTinCaNhiem)
     {
-        this.lsTinhThanh = ls;
+        this.mThongTinCaNhiem = thongTinCaNhiem;
         notifyDataSetChanged();
     }
 
@@ -38,22 +39,24 @@ public class TinhThanhAdapter extends RecyclerView.Adapter<TinhThanhAdapter.Tinh
 
     @Override
     public void onBindViewHolder(@NonNull TinhThanhViewHolder holder, int position) {
-        TinhThanh tinhThanh = lsTinhThanh.get(position);
+        TinhThanh tinhThanh = mThongTinCaNhiem.getLocations().get(position);
         if(tinhThanh == null)
         {
             return;
         }
-        holder.tvTinhThanh.setText(tinhThanh.getTenTinhThanh());
-        holder.tvCaHomNay.setText("+"+tinhThanh.getSoCaNhiem());
-        holder.tvTongCanhNhiem.setText(tinhThanh.getTongCaNhiem());
-        holder.tvCaTuVong.setText(tinhThanh.getSoCaTuVong());
+        String pattern = "###,###";
+        DecimalFormat decimalFormat = new DecimalFormat(pattern);
+        holder.tvTinhThanh.setText(tinhThanh.getName());
+        holder.tvCaHomNay.setText("+"+decimalFormat.format(tinhThanh.getCasesToday()));
+        holder.tvTongCanhNhiem.setText(decimalFormat.format(tinhThanh.getCases()));
+        holder.tvCaTuVong.setText(decimalFormat.format(tinhThanh.getDeath()));
     }
 
     @Override
     public int getItemCount() {
-        if(lsTinhThanh != null)
-            return lsTinhThanh.size();
-
+        if(mThongTinCaNhiem!=null)
+            if(mThongTinCaNhiem.getLocations() != null)
+                return mThongTinCaNhiem.getLocations().size();
         return 0;
     }
 
