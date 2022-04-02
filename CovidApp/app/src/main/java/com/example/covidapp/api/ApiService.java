@@ -1,6 +1,6 @@
 package com.example.covidapp.api;
 
-import com.example.covidapp.model.ThongTinCaNhiem;
+import com.example.covidapp.model.thongtincanhiem.ThongTinCaNhiem;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

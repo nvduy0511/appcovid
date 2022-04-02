@@ -36,8 +36,7 @@ public class SplashActivity extends AppCompatActivity {
         }
         else
         {
-            Intent intentMain = new Intent(this, KhaiBaoYTe.class);
-            intentMain.putExtra("uid",user.getUid());
+            Intent intentMain = new Intent(this, HomeActivity.class);
             startActivity(intentMain);
             finish();
         }

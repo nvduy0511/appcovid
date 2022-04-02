@@ -13,11 +13,9 @@ import android.widget.Toast;
 
 import com.example.covidapp.adapter.TinhThanhAdapter;
 import com.example.covidapp.api.ApiService;
-import com.example.covidapp.model.ThongTinCaNhiem;
+import com.example.covidapp.model.thongtincanhiem.ThongTinCaNhiem;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;

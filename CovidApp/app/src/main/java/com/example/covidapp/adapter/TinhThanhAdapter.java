@@ -10,11 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.covidapp.R;
-import com.example.covidapp.model.ThongTinCaNhiem;
-import com.example.covidapp.model.TinhThanh;
+import com.example.covidapp.model.thongtincanhiem.ThongTinCaNhiem;
+import com.example.covidapp.model.thongtincanhiem.TinhThanh;
 
 import java.text.DecimalFormat;
-import java.util.List;
 
 public class TinhThanhAdapter extends RecyclerView.Adapter<TinhThanhAdapter.TinhThanhViewHolder> {
 

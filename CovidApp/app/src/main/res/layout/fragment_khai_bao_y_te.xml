@@ -41,7 +41,7 @@
                         android:padding="5dp">
 
                         <CheckBox
-                            android:id="@+id/checkBox2"
+                            android:id="@+id/cbExtend"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -50,10 +50,10 @@
                             android:textSize="18sp" />
 
                         <TextView
-                            android:id="@+id/tv_hoTen2"
+                            android:id="@+id/tv_hoTenExtend"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/checkBox2"
+                            android:layout_below="@+id/cbExtend"
                             android:layout_marginLeft="15dp"
                             android:fontFamily="@font/roboto_slab"
                             android:text="NGUYỄN VĂN DUY"
@@ -77,14 +77,14 @@
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/tv_hoTen2"
+                            android:layout_below="@+id/tv_hoTenExtend"
                             android:layout_marginLeft="15dp"
                             android:layout_marginTop="10dp"
                             android:layout_marginRight="15dp"
                             android:hint="Họ và tên">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/txtiHoTen"
+                                android:id="@+id/txti_hoTen"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content" />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -101,7 +101,7 @@
                             android:hint="Năm Sinh">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/txtiNamSinh"
+                                android:inputType="date"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content" />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -118,7 +118,7 @@
                             android:hint="CCCD/CMND">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/txtiCCCD"
+
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content" />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -170,7 +170,7 @@
                             android:hint="Đia chỉ">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/txti_DiaChi"
+
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
 
@@ -189,7 +189,7 @@
                             android:hint="Số điện thoại">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/txti_SDT"
+                                android:inputType="number"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content" />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -209,7 +209,7 @@
 
 
                         <CheckBox
-                            android:id="@+id/checkBox"
+                            android:id="@+id/cbColab"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -218,7 +218,7 @@
                             android:textSize="18sp" />
 
                         <TextView
-                            android:id="@+id/tv_hoTen"
+                            android:id="@+id/tv_hoTenColab"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
@@ -278,6 +278,7 @@
 
                     <RadioButton
                         android:id="@+id/rd_quest1no"
+                        android:checked="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -320,6 +321,7 @@
                     <RadioButton
                         android:id="@+id/rd_quest2no"
                         android:layout_width="match_parent"
+                        android:checked="true"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/no" />
@@ -348,6 +350,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:layout_marginRight="10dp"
                     android:weightSum="2">
 
                     <TextView
@@ -374,6 +377,7 @@
 
                         <RadioButton
                             android:id="@+id/rd_quest3_1no"
+                            android:checked="true"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -386,6 +390,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:layout_marginRight="10dp"
                     android:weightSum="2">
 
                     <TextView
@@ -412,6 +417,7 @@
 
                         <RadioButton
                             android:id="@+id/rd_quest3_2no"
+                            android:checked="true"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -424,6 +430,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:layout_marginRight="10dp"
                     android:weightSum="2">
 
                     <TextView
@@ -450,6 +457,7 @@
 
                         <RadioButton
                             android:id="@+id/rd_quest3_3no"
+                            android:checked="true"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"

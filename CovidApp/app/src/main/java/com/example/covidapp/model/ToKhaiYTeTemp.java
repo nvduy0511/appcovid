@@ -1,14 +1,14 @@
 package com.example.covidapp.model;
 
-public class ToKhaiYTe {
+public class ToKhaiYTeTemp {
     private String date;
     private String time;
     private String name;
 
-    public ToKhaiYTe() {
+    public ToKhaiYTeTemp() {
     }
 
-    public ToKhaiYTe(String date, String time, String name) {
+    public ToKhaiYTeTemp(String date, String time, String name) {
         this.date = date;
         this.time = time;
         this.name = name;

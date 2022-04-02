@@ -1,4 +1,4 @@
-package com.example.covidapp.model;
+package com.example.covidapp.model.thongtincanhiem;
 
 public class TongQuanCaNhiem {
     protected long death;

@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.covidapp.adapter.ToKhaiYTeAdapter;
-import com.example.covidapp.model.ToKhaiYTe;
+import com.example.covidapp.model.ToKhaiYTeTemp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,21 +53,21 @@ public class ToKhaiYTeFragment extends Fragment {
         return view_ToKhaiYTe;
     }
 
-    private List<ToKhaiYTe> getLsToKhai() {
-        List<ToKhaiYTe> ls = new ArrayList<>();
-        ls.add(new ToKhaiYTe("20/12/2020","19:20:30","Nguyễn Văn Duy" ));
-        ls.add(new ToKhaiYTe("19/05/2021","07:20:30","Nguyễn Văn Duy" ));
-        ls.add(new ToKhaiYTe("22/11/2022","12:20:30","Phạm Văn B" ));
-        ls.add(new ToKhaiYTe("23/04/2022","13:20:30","Nguyễn Văn Duy" ));
-        ls.add(new ToKhaiYTe("22/01/2021","14:20:30","Nguyễn Văn Duy" ));
-        ls.add(new ToKhaiYTe("20/12/2020","15:20:30","Nguyễn Văn Duy" ));
+    private List<ToKhaiYTeTemp> getLsToKhai() {
+        List<ToKhaiYTeTemp> ls = new ArrayList<>();
+        ls.add(new ToKhaiYTeTemp("20/12/2020","19:20:30","Nguyễn Văn Duy" ));
+        ls.add(new ToKhaiYTeTemp("19/05/2021","07:20:30","Nguyễn Văn Duy" ));
+        ls.add(new ToKhaiYTeTemp("22/11/2022","12:20:30","Phạm Văn B" ));
+        ls.add(new ToKhaiYTeTemp("23/04/2022","13:20:30","Nguyễn Văn Duy" ));
+        ls.add(new ToKhaiYTeTemp("22/01/2021","14:20:30","Nguyễn Văn Duy" ));
+        ls.add(new ToKhaiYTeTemp("20/12/2020","15:20:30","Nguyễn Văn Duy" ));
 
-        ls.add(new ToKhaiYTe("20/12/2020","19:20:30","Nguyễn Văn Duy" ));
-        ls.add(new ToKhaiYTe("19/05/2021","07:20:30","Nguyễn Văn Duy" ));
-        ls.add(new ToKhaiYTe("22/11/2022","12:20:30","Phạm Văn B" ));
-        ls.add(new ToKhaiYTe("23/04/2022","13:20:30","Nguyễn Văn Duy" ));
-        ls.add(new ToKhaiYTe("22/01/2021","14:20:30","Nguyễn Văn Duy" ));
-        ls.add(new ToKhaiYTe("20/12/2020","15:20:30","Nguyễn Văn Duy" ));
+        ls.add(new ToKhaiYTeTemp("20/12/2020","19:20:30","Nguyễn Văn Duy" ));
+        ls.add(new ToKhaiYTeTemp("19/05/2021","07:20:30","Nguyễn Văn Duy" ));
+        ls.add(new ToKhaiYTeTemp("22/11/2022","12:20:30","Phạm Văn B" ));
+        ls.add(new ToKhaiYTeTemp("23/04/2022","13:20:30","Nguyễn Văn Duy" ));
+        ls.add(new ToKhaiYTeTemp("22/01/2021","14:20:30","Nguyễn Văn Duy" ));
+        ls.add(new ToKhaiYTeTemp("20/12/2020","15:20:30","Nguyễn Văn Duy" ));
         return ls;
     }
 }

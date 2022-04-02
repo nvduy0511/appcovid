@@ -10,19 +10,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.covidapp.R;
-import com.example.covidapp.model.ToKhaiYTe;
+import com.example.covidapp.model.ToKhaiYTeTemp;
 
 import java.util.List;
 
 public class ToKhaiYTeAdapter extends RecyclerView.Adapter<ToKhaiYTeAdapter.ToKhaiYTeViewHolder> {
 
     private Context mContext;
-    private List<ToKhaiYTe> lsToKhaiYte;
+    private List<ToKhaiYTeTemp> lsToKhaiYte;
 
     public ToKhaiYTeAdapter(Context mContext) {
         this.mContext = mContext;
     }
-    public void setData(List<ToKhaiYTe> ls)
+    public void setData(List<ToKhaiYTeTemp> ls)
     {
         this.lsToKhaiYte = ls;
         notifyDataSetChanged();
@@ -37,7 +37,7 @@ public class ToKhaiYTeAdapter extends RecyclerView.Adapter<ToKhaiYTeAdapter.ToKh
 
     @Override
     public void onBindViewHolder(@NonNull ToKhaiYTeViewHolder holder, int position) {
-        ToKhaiYTe toKhai = lsToKhaiYte.get(position);
+        ToKhaiYTeTemp toKhai = lsToKhaiYte.get(position);
         if(toKhai == null)
         {
             return;

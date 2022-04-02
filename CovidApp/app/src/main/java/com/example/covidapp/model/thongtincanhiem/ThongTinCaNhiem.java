@@ -1,4 +1,4 @@
-package com.example.covidapp.model;
+package com.example.covidapp.model.thongtincanhiem;
 
 import java.util.List;
 
