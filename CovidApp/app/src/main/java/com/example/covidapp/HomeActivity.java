@@ -1,6 +1,5 @@
 package com.example.covidapp;
 
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -19,6 +18,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        getSupportActionBar().hide();
         anhXa();
     }
 
@@ -37,7 +37,7 @@ public class HomeActivity extends AppCompatActivity {
         rlKhaiBaoYTe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+                Intent intent = new Intent(HomeActivity.this, KhaiBaoYTe.class);
                 startActivity(intent);
             }
         });

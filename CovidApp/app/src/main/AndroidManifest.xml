@@ -40,7 +40,7 @@
         <activity android:name=".DangNhapActivity" />
         <activity android:name=".EnterOTPActivity" />
         <activity android:name=".ThongTinCaNhiemActivity" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".KhaiBaoYTe" />
 
         <meta-data
             android:name="preloaded_fonts"

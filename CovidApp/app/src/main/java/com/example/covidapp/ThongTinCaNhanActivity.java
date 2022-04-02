@@ -37,8 +37,6 @@ public class ThongTinCaNhanActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thong_tin_ca_nhan);
         Objects.requireNonNull(getSupportActionBar()).hide();
-
-
         anhXa();
     }
 
