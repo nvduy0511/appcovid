@@ -26,6 +26,10 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.ramotion.foldingcell.FoldingCell;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -49,6 +53,8 @@ public class KhaiBaoYTeFragment extends Fragment {
     private RadioButton rdQuestion3_2;
     private RadioButton rdQuestion3_3;
     private RadioButton rdGioiTinh;
+    private RadioButton rdGioiTinhNu;
+
 
     private TextInputEditText tilHoTen;
     private TextInputLayout tlNgayThangNamSinh;
@@ -57,6 +63,8 @@ public class KhaiBaoYTeFragment extends Fragment {
     private TextInputLayout tlSDT;
 
     private AppCompatButton btnSubmit;
+    private KhaiBaoYTe mKhaiBaoYTe;
+    private ConNguoi mConNguoiKhaiBao;
 
 
     public KhaiBaoYTeFragment() {
@@ -77,6 +85,7 @@ public class KhaiBaoYTeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_khai_bao_y_te, container, false);
+        mKhaiBaoYTe = (KhaiBaoYTe) getActivity();
         anhXa();
         return mView;
     }
@@ -86,6 +95,7 @@ public class KhaiBaoYTeFragment extends Fragment {
         fc= (FoldingCell) mView.findViewById(R.id.folding_cell);
         btnExtend = (Button) mView.findViewById(R.id.btnExtend);
         btnColab = (Button) mView.findViewById(R.id.btnColab);
+        setDataOnFragment();
 
         cbKhaiBaoHoExtend = (CheckBox) mView.findViewById(R.id.cbExtend);
         cbKhaiBaoHoColab = (CheckBox) mView.findViewById(R.id.cbColab);
@@ -96,6 +106,7 @@ public class KhaiBaoYTeFragment extends Fragment {
         rdQuestion3_2 = (RadioButton) mView.findViewById(R.id.rd_quest3_2yes);
         rdQuestion3_3 = (RadioButton) mView.findViewById(R.id.rd_quest3_3yes);
         rdGioiTinh = (RadioButton) mView.findViewById(R.id.radioButtonNam);
+        rdGioiTinhNu = (RadioButton) mView.findViewById(R.id.radioButtonNu);
 
         tilHoTen = (TextInputEditText) mView.findViewById(R.id.txti_hoTen);
         tlNgayThangNamSinh = (TextInputLayout) mView.findViewById(R.id.l_NamSinh);
@@ -128,6 +139,7 @@ public class KhaiBaoYTeFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 cbKhaiBaoHoExtend.setChecked(cbKhaiBaoHoColab.isChecked());
+                setStatusEditText(cbKhaiBaoHoColab.isChecked());
             }
         });
 
@@ -160,12 +172,53 @@ public class KhaiBaoYTeFragment extends Fragment {
         });
     }
 
-    private void submitDataToSever() {
+    private void setStatusEditText(boolean checked) {
+        tilHoTen.setEnabled(checked);
+        tlNgayThangNamSinh.setEnabled(checked);
+        tlCCCD.setEnabled(checked);
+        tlDiaChi.setEnabled(checked);
+        tlSDT.setEnabled(checked);
+        rdGioiTinhNu.setEnabled(checked);
+        rdGioiTinh.setEnabled(checked);
+    }
 
-        ConNguoi cn = new ConNguoi();
+    private void setDataOnFragment() {
+        ConNguoiService.conNguoiService.getOneConNguoi(mKhaiBaoYTe.getCmnd()).enqueue(new Callback<ConNguoi>() {
+            @Override
+            public void onResponse(Call<ConNguoi> call, Response<ConNguoi> response) {
+                mConNguoiKhaiBao = response.body();
+                if(mConNguoiKhaiBao != null)
+                    setData(mConNguoiKhaiBao);
+            }
+
+            @Override
+            public void onFailure(Call<ConNguoi> call, Throwable t) {
+                Toast.makeText(getContext(),"Call API thất bại",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setData(ConNguoi conNguoi) {
+        tilHoTen.setText(conNguoi.getHoTen());
+        tlNgayThangNamSinh.getEditText().setText(conNguoi.getNgaySinh());
+        tlCCCD.getEditText().setText(conNguoi.getCmnd());
+        tlDiaChi.getEditText().setText(conNguoi.getDiaChi());
+        tlSDT.getEditText().setText(conNguoi.getSdt());
+        switch (conNguoi.getGioiTinh())
+        {
+            case "Nam":
+                rdGioiTinh.setChecked(true);
+                break;
+            case "Nữ":
+                rdGioiTinhNu.setChecked(true);
+                break;
+        }
+    }
+
+    private void submitDataToSever() {
         if(cbKhaiBaoHoExtend.isChecked() == true)
         {
-
+            ConNguoi cn = new ConNguoi();
             cn.setHoTen(tilHoTen.getText().toString().trim());
             cn.setCmnd(tlCCCD.getEditText().getText().toString().trim());
             cn.setDiaChi(tlDiaChi.getEditText().getText().toString().trim());
@@ -173,14 +226,16 @@ public class KhaiBaoYTeFragment extends Fragment {
             cn.setSdt(tlSDT.getEditText().getText().toString().trim());
             cn.setGioiTinh(rdGioiTinh.isChecked() == true ? "Nam":"Nữ");
 
-
             ConNguoiService.conNguoiService.addConNguoi(cn).enqueue(new Callback<Boolean>() {
                 @Override
                 public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                     if(response.body() == true)
+                    {
                         Log.e(TAG,"Them thanh cong!");
+                    }
                     else
                         Log.e(TAG,"Da ton tai con nguoi khong can them !");
+                    themPhieuKhaiBaoYTe(cn);
                 }
 
                 @Override
@@ -188,9 +243,10 @@ public class KhaiBaoYTeFragment extends Fragment {
                     Log.e(TAG,t.toString());
                 }
             });
+            return;
         }
         // thêm phiếu khai báo y tế
-       themPhieuKhaiBaoYTe(cn);
+       themPhieuKhaiBaoYTe(mConNguoiKhaiBao);
     }
 
     private void themPhieuKhaiBaoYTe(ConNguoi conNguoi) {
@@ -201,6 +257,13 @@ public class KhaiBaoYTeFragment extends Fragment {
         phieuKhaiBaoYTe.setCauHoi3_2(rdQuestion3_2.isChecked());
         phieuKhaiBaoYTe.setCauHoi3_3(rdQuestion3_3.isChecked());
         phieuKhaiBaoYTe.setCmnd_ConNguoi(conNguoi);
+
+        Date date = new Date();
+        DateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        String dateString  = df.format(date);
+
+        phieuKhaiBaoYTe.setDateTime(dateString);
+        phieuKhaiBaoYTe.setCmnd_NguoiKhaiBao(mKhaiBaoYTe.getCmnd());
 
         PhieuKhaiBaoYTeService.phieuKhaiBaoYTeService.addPhieuKhaiBaoYTe(phieuKhaiBaoYTe).enqueue(new Callback<Boolean>() {
             @Override

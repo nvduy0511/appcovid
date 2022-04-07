@@ -3,6 +3,7 @@ package com.example.covidapp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -20,22 +21,24 @@ public class KhaiBaoYTe extends AppCompatActivity {
     private ViewPager2 viewPagerKhaiBaoYTe;
     private KhaiBaoYteViewPagerAdapter khaiBaoYteViewPagerAdapter;
     private TextView tvTieuDe;
+    private String cmnd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_khaibaoyte);
         anhXa();
-        getDataInten();
     }
 
     private void anhXa() {
-        //
+        Intent intent = getIntent();
+        cmnd = intent.getStringExtra("cmnd");
         ibtn_back = (ImageButton) findViewById(R.id.ibtn_back);
         ibtn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
+
                 finish();;
             }
         });
@@ -61,8 +64,7 @@ public class KhaiBaoYTe extends AppCompatActivity {
         }).attach();
     }
 
-    private void getDataInten()
-    {
-        String strUID = getIntent().getStringExtra("uid");
+    public String getCmnd() {
+        return cmnd;
     }
 }

@@ -11,20 +11,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.covidapp.R;
 import com.example.covidapp.model.ToKhaiYTeTemp;
+import com.example.covidapp.model.entity.PhieuKhaiBaoYTe;
 
 import java.util.List;
 
 public class ToKhaiYTeAdapter extends RecyclerView.Adapter<ToKhaiYTeAdapter.ToKhaiYTeViewHolder> {
 
     private Context mContext;
-    private List<ToKhaiYTeTemp> lsToKhaiYte;
+    private List<PhieuKhaiBaoYTe> lsPhieuKhaiBaoYTe;
 
     public ToKhaiYTeAdapter(Context mContext) {
         this.mContext = mContext;
     }
-    public void setData(List<ToKhaiYTeTemp> ls)
+
+    public void setData(List<PhieuKhaiBaoYTe> ls)
     {
-        this.lsToKhaiYte = ls;
+        this.lsPhieuKhaiBaoYTe = ls;
         notifyDataSetChanged();
     }
 
@@ -37,22 +39,23 @@ public class ToKhaiYTeAdapter extends RecyclerView.Adapter<ToKhaiYTeAdapter.ToKh
 
     @Override
     public void onBindViewHolder(@NonNull ToKhaiYTeViewHolder holder, int position) {
-        ToKhaiYTeTemp toKhai = lsToKhaiYte.get(position);
-        if(toKhai == null)
+        PhieuKhaiBaoYTe phieuKhaiBaoYTe = lsPhieuKhaiBaoYTe.get(position);
+        if(phieuKhaiBaoYTe == null)
         {
             return;
         }
-        String res[] = toKhai.getDate().split("/");
-        holder.tvDayMonth.setText(res[0]+"/"+res[1]);
-        holder.tvYear.setText(res[2]);
-        holder.tvName.setText(toKhai.getName());
-        holder.tvTime.setText(toKhai.getTime());
+        String res[] = phieuKhaiBaoYTe.getDateTime().split(" ");
+        String date[] = res[0].split("-");
+        holder.tvDayMonth.setText(date[0]+"/"+date[1]);
+        holder.tvYear.setText(date[2]);
+        holder.tvName.setText(phieuKhaiBaoYTe.getCmnd_ConNguoi().getHoTen());
+        holder.tvTime.setText(res[1]);
     }
 
     @Override
     public int getItemCount() {
-        if(lsToKhaiYte != null)
-            return lsToKhaiYte.size();
+        if(lsPhieuKhaiBaoYTe != null)
+            return lsPhieuKhaiBaoYTe.size();
 
         return 0;
     }

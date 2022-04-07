@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,6 +43,7 @@ public class EnterOTPActivity extends AppCompatActivity {
     private String strVerifyID;
     private FirebaseAuth mAuth;
     private PhoneAuthProvider.ForceResendingToken mForceResendingToken;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,7 @@ public class EnterOTPActivity extends AppCompatActivity {
         setContentView(R.layout.activity_enter_o_t_p);
         getSupportActionBar().hide();
         mAuth = FirebaseAuth.getInstance();
+        progressDialog = new ProgressDialog(EnterOTPActivity.this);
         getDataInten();
         anhXa();
 
@@ -83,9 +86,11 @@ public class EnterOTPActivity extends AppCompatActivity {
     }
 
     private void onClickSendOTP(String strOTP) {
-//        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(strVerifyID, strOTP);
-//        signInWithPhoneAuthCredential(credential);
-        goToMainActivity("CnygpFc8OSZPKpSp7BfTYmF6uRt2");
+        progressDialog.setTitle("Đang kiểm tra OTP!");
+        progressDialog.show();
+        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(strVerifyID, strOTP);
+        signInWithPhoneAuthCredential(credential);
+//        goToMainActivity("CnygpFc8OSZPKpSp7BfTYmF6uRt2");
     }
 
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
@@ -99,8 +104,11 @@ public class EnterOTPActivity extends AppCompatActivity {
 
                             FirebaseUser user = task.getResult().getUser();
                             // Update UI
+                            progressDialog.dismiss();
                             goToMainActivity(user.getUid());
+
                         } else {
+                            progressDialog.dismiss();
                             // Sign in failed, display a message and update the UI
                             Log.e(TAG, "signInWithCredential:failure", task.getException());
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
@@ -140,7 +148,6 @@ public class EnterOTPActivity extends AppCompatActivity {
         PhoneAuthProvider.verifyPhoneNumber(options);
 
     }
-
     private void goToMainActivity(String uID) {
         NguoiDungService.nguoiDungService.getOneNguoiDung(uID).enqueue(new Callback<NguoiDung>() {
             @Override
@@ -177,7 +184,6 @@ public class EnterOTPActivity extends AppCompatActivity {
     private void goToHomeActivity(NguoiDung nguoiDung) {
         Intent intent = new Intent(this, HomeActivity.class);
         intent.putExtra("uid",nguoiDung.getuID());
-        intent.putExtra("cmnd",nguoiDung.getCmnd_ConNguoi().getCmnd());
         startActivity(intent);
         finishAffinity();
     }

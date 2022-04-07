@@ -16,13 +16,11 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface NguoiDungService {
-    Gson gson = new GsonBuilder()
-            .setDateFormat("dd-MM-yyyy HH:mm:ss")
-            .create();
+
     NguoiDungService nguoiDungService = new Retrofit.Builder()
-            .baseUrl("http://192.168.1.246:8081/")
+            .baseUrl(BaseAPI.baseURL)
             .addConverterFactory(new NullOnEmptyConverterFactory())
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addConverterFactory(GsonConverterFactory.create(BaseAPI.gson))
             .build()
             .create(NguoiDungService.class);
 

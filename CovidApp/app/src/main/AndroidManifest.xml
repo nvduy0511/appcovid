@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.covidapp">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -11,20 +13,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CovidApp">
-        <activity android:name=".ThongTinCaNhanActivity">
-        </activity>
-        <activity android:name=".HomeActivity">
-        </activity>
-        <activity android:name=".SplashActivity">
 
-        </activity>
-        <activity android:name=".DangNhapActivity" />
-        <activity android:name=".EnterOTPActivity" >
+
+        <activity android:name=".ThongTinCaNhanActivity"></activity>
+        <activity android:name=".HomeActivity"></activity>
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".DangNhapActivity"></activity>
+        <activity android:name=".EnterOTPActivity"></activity>
         <activity android:name=".ThongTinCaNhiemActivity" />
         <activity android:name=".KhaiBaoYTe" />
 

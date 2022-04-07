@@ -3,15 +3,10 @@ package com.example.covidapp.model.entity;
 public class ConNguoi {
 
     private String cmnd;
-
     private String hoTen;
-
     private String diaChi;
-
     private String ngaySinh;
-
     private String sdt;
-
     private String gioiTinh;
 
 

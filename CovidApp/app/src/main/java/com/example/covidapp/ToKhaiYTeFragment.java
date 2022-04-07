@@ -9,12 +9,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.covidapp.adapter.ToKhaiYTeAdapter;
+import com.example.covidapp.api.PhieuKhaiBaoYTeService;
 import com.example.covidapp.model.ToKhaiYTeTemp;
+import com.example.covidapp.model.entity.PhieuKhaiBaoYTe;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +34,7 @@ public class ToKhaiYTeFragment extends Fragment {
 
     private RecyclerView rcv_ToKhaiYTe;
     private ToKhaiYTeAdapter toKhaiYTeAdapter;
+    private KhaiBaoYTe mKhaiBaoYTe;
 
     public static ToKhaiYTeFragment newInstance(String param1, String param2) {
         ToKhaiYTeFragment fragment = new ToKhaiYTeFragment();
@@ -36,38 +44,44 @@ public class ToKhaiYTeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view_ToKhaiYTe =  inflater.inflate(R.layout.fragment_to_khai_y_te, container, false);
-
-        // RecyclerView
-        rcv_ToKhaiYTe = view_ToKhaiYTe.findViewById(R.id.rcv_ToKhai);
-        toKhaiYTeAdapter = new ToKhaiYTeAdapter(this.getContext());
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext() , RecyclerView.VERTICAL, false );
-        rcv_ToKhaiYTe.setLayoutManager(linearLayoutManager);
-        toKhaiYTeAdapter.setData(getLsToKhai());
-        rcv_ToKhaiYTe.setAdapter(toKhaiYTeAdapter);
+        mKhaiBaoYTe = (KhaiBaoYTe) getActivity();
         return view_ToKhaiYTe;
     }
 
-    private List<ToKhaiYTeTemp> getLsToKhai() {
-        List<ToKhaiYTeTemp> ls = new ArrayList<>();
-        ls.add(new ToKhaiYTeTemp("20/12/2020","19:20:30","Nguyễn Văn Duy" ));
-        ls.add(new ToKhaiYTeTemp("19/05/2021","07:20:30","Nguyễn Văn Duy" ));
-        ls.add(new ToKhaiYTeTemp("22/11/2022","12:20:30","Phạm Văn B" ));
-        ls.add(new ToKhaiYTeTemp("23/04/2022","13:20:30","Nguyễn Văn Duy" ));
-        ls.add(new ToKhaiYTeTemp("22/01/2021","14:20:30","Nguyễn Văn Duy" ));
-        ls.add(new ToKhaiYTeTemp("20/12/2020","15:20:30","Nguyễn Văn Duy" ));
+    @Override
+    public void setMenuVisibility(boolean menuVisible) {
+        super.setMenuVisibility(menuVisible);
+        if(menuVisible)
+        {
+            // RecyclerView
+            rcv_ToKhaiYTe = view_ToKhaiYTe.findViewById(R.id.rcv_ToKhai);
+            toKhaiYTeAdapter = new ToKhaiYTeAdapter(this.getContext());
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext() , RecyclerView.VERTICAL, false );
+            rcv_ToKhaiYTe.setLayoutManager(linearLayoutManager);
+            getLsToKhai();
+            rcv_ToKhaiYTe.setAdapter(toKhaiYTeAdapter);
+        }
+    }
 
-        ls.add(new ToKhaiYTeTemp("20/12/2020","19:20:30","Nguyễn Văn Duy" ));
-        ls.add(new ToKhaiYTeTemp("19/05/2021","07:20:30","Nguyễn Văn Duy" ));
-        ls.add(new ToKhaiYTeTemp("22/11/2022","12:20:30","Phạm Văn B" ));
-        ls.add(new ToKhaiYTeTemp("23/04/2022","13:20:30","Nguyễn Văn Duy" ));
-        ls.add(new ToKhaiYTeTemp("22/01/2021","14:20:30","Nguyễn Văn Duy" ));
-        ls.add(new ToKhaiYTeTemp("20/12/2020","15:20:30","Nguyễn Văn Duy" ));
-        return ls;
+    private void getLsToKhai() {
+        List<PhieuKhaiBaoYTe> ls = new ArrayList<>();
+        PhieuKhaiBaoYTeService.phieuKhaiBaoYTeService.getListPhieuKhaiBaoYTe(mKhaiBaoYTe.getCmnd()).enqueue(new Callback<List<PhieuKhaiBaoYTe>>() {
+            @Override
+            public void onResponse(Call<List<PhieuKhaiBaoYTe>> call, Response<List<PhieuKhaiBaoYTe>> response) {
+                toKhaiYTeAdapter.setData(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<PhieuKhaiBaoYTe>> call, Throwable t) {
+                Toast.makeText(getContext(),"Call API thất bại!",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

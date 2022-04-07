@@ -37,6 +37,7 @@ public class SplashActivity extends AppCompatActivity {
         else
         {
             Intent intentMain = new Intent(this, HomeActivity.class);
+            intentMain.putExtra("uid",user.getUid());
             startActivity(intentMain);
             finish();
         }

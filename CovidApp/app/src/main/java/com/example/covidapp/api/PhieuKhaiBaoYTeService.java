@@ -16,23 +16,26 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Query;
 
-public interface PhieuKhaiBaoYTeService {
-    Gson gson = new GsonBuilder()
-            .setDateFormat("dd-MM-yyyy HH:mm:ss")
-            .create();
+public interface PhieuKhaiBaoYTeService{
+
     PhieuKhaiBaoYTeService phieuKhaiBaoYTeService = new Retrofit.Builder()
-            .baseUrl("http://192.168.1.246:8081/")
+            .baseUrl(BaseAPI.baseURL)
             .addConverterFactory(new NullOnEmptyConverterFactory())
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addConverterFactory(GsonConverterFactory.create(BaseAPI.gson))
             .build()
             .create(PhieuKhaiBaoYTeService.class);
 
     @GET("phieukhaibaoyte/getone")
     Call<PhieuKhaiBaoYTe> getOnePhieuKhaiBaoYTe(@Query("maphieu") String maphieu);
 
+    @GET("phieukhaibaoyte/getlistphieukhaibao")
+    Call<List<PhieuKhaiBaoYTe>> getListPhieuKhaiBaoYTe(@Query("cmnd") String cmnd);
+
     @POST("phieukhaibaoyte/add")
     Call<Boolean> addPhieuKhaiBaoYTe(@Body PhieuKhaiBaoYTe phieuKhaiBaoYTe);
 
     @PUT("phieukhaibaoyte/update")
     Call<Boolean> updatePhieuKhaiBaoYTe(@Query("maphieu") String maphieu,@Body PhieuKhaiBaoYTe phieuKhaiBaoYTe);
+
+
 }

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,12 +31,14 @@ public class DangNhapActivity extends AppCompatActivity {
     private String TAG = DangNhapActivity.class.getName();
     private AppCompatButton btnVerify;
     private FirebaseAuth mAuth;
+    private ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dang_nhap);
         getSupportActionBar().hide();
         mAuth = FirebaseAuth.getInstance();
+        progressDialog = new ProgressDialog(DangNhapActivity.this);
         anhXa();
     }
 
@@ -52,6 +55,8 @@ public class DangNhapActivity extends AppCompatActivity {
     }
 
     private void onClickVerifyPhoneNumber(String phoneNumber) {
+        progressDialog.setTitle("Đang tiến hành xác minh!");
+        progressDialog.show();
         PhoneAuthOptions options =
                 PhoneAuthOptions.newBuilder(mAuth)
                         .setPhoneNumber(phoneNumber)       // Phone number to verify
@@ -60,19 +65,21 @@ public class DangNhapActivity extends AppCompatActivity {
                         .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                             @Override
                             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
+                                progressDialog.dismiss();
                                 signInWithPhoneAuthCredential(phoneAuthCredential);
                             }
 
                             @Override
                             public void onVerificationFailed(@NonNull FirebaseException e) {
+                                progressDialog.dismiss();
                                 Toast.makeText(DangNhapActivity.this,"onVerificationFailed",Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
                             public void onCodeSent(@NonNull String verifyID, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                                 super.onCodeSent(verifyID, forceResendingToken);
+                                progressDialog.dismiss();
                                 goToEnterOTPActivity(phoneNumber,verifyID);
-
                             }
                         })
                         .build();
@@ -89,7 +96,6 @@ public class DangNhapActivity extends AppCompatActivity {
                             Log.e(TAG, "signInWithCredential:success");
 
                             FirebaseUser user = task.getResult().getUser();
-                            // Update UI
                             goToMainActivity(user.getUid());
                         } else {
                             // Sign in failed, display a message and update the UI
