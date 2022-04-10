@@ -3,47 +3,63 @@ package com.example.covidapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import org.osmdroid.api.IMapController;
+import org.osmdroid.bonuspack.location.GeoNamesPOIProvider;
+import org.osmdroid.bonuspack.location.OverpassAPIProvider;
+import org.osmdroid.bonuspack.location.POI;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.tileprovider.util.ManifestUtil;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class TrungTamYTeGanBan extends AppCompatActivity {
 
     MapView map = null;
+    IMapController mapController;
     private MyLocationNewOverlay mLocationOverlay;
+
+    static String geonamesAccount;
+    public static ArrayList<POI> mPOIs;
+
+    private ImageButton btnMyLocation;
+    private ImageButton btnTimBV;
+    private ImageButton btnBack;
+    @SuppressLint("MissingPermission")
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //handle permissions first, before map is created. not depicted here
-
-        //load/initialize the osmdroid configuration, this can be done
         Context ctx = getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
-        //setting this before the layout is inflated is a good idea
-        //it 'should' ensure that the map has a writable location for the map cache, even without permissions
-        //if no tiles are displayed, you can try overriding the cache path using Configuration.getInstance().setCachePath
-        //see also StorageUtils
-        //note, the load method also sets the HTTP User Agent to your application's package name, abusing osm's tile servers will get you banned based on this string
+        setContentView(R.layout.activity_trung_tam_ye_te_gan_ban);
+        getSupportActionBar().hide();
 
-        //inflate and create the map
-        setContentView(R.layout.activity_main);
+        geonamesAccount = ManifestUtil.retrieveKey(this, "GEONAMES_ACCOUNT");
         // Check GPS
         AccessPermission();
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -55,9 +71,8 @@ public class MainActivity extends AppCompatActivity {
 
         map = (MapView) findViewById(R.id.map);
         map.setTileSource(TileSourceFactory.MAPNIK);
-        map.setBuiltInZoomControls(true);
         map.setMultiTouchControls(true);
-        IMapController mapController = map.getController();
+        mapController = map.getController();
         mapController.setZoom(9.5);
         GeoPoint startPoint = new GeoPoint(10.776530, 106.700981);
         mapController.setCenter(startPoint);
@@ -65,7 +80,118 @@ public class MainActivity extends AppCompatActivity {
         this.mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(this),map);
         this.mLocationOverlay.enableMyLocation();
         map.getOverlays().add(this.mLocationOverlay);
+        mLocationOverlay.runOnFirstFix(new Runnable() {
+            @Override
+            public void run() {
+                if(mLocationOverlay.getMyLocation() != null)
+                {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mapController.animateTo(mLocationOverlay.getMyLocation());
+                        }
+                    });
+                }
+
+            }
+        });
+
+        btnTimBV = (ImageButton) findViewById(R.id.btnTimBenhVien);
+        btnMyLocation = (ImageButton) findViewById(R.id.btnMyLocation);
+        btnBack = (ImageButton) findViewById(R.id.ibtn_backTrungTamYte);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        btnTimBV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String feature = "amenity=hospital";
+                if (!feature.equals(""))
+                    Toast.makeText(TrungTamYTeGanBan.this, "Đang tìm kiếm bệnh viện !", Toast.LENGTH_SHORT).show();
+                getPOIAsync(feature);
+            }
+        });
+        btnMyLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mapController.animateTo(mLocationOverlay.getMyLocation());
+            }
+        });
+
     }
+
+    void getPOIAsync(String tag){
+        new POILoadingTask().execute(tag);
+    }
+
+    private class POILoadingTask extends AsyncTask<String, Void, ArrayList<POI>> {
+        String mFeatureTag;
+        String message;
+        protected ArrayList<POI> doInBackground(String... params) {
+            mFeatureTag = params[0];
+            BoundingBox bb = map.getBoundingBox();
+            if (mFeatureTag == null || mFeatureTag.equals("")){
+                return null;
+            } else if (mFeatureTag.equals("wikipedia")){
+                GeoNamesPOIProvider poiProvider = new GeoNamesPOIProvider(geonamesAccount);
+                //Get POI inside the bounding box of the current map view:
+                ArrayList<POI> pois = poiProvider.getPOIInside(bb, 30);
+                return pois;
+            } else {
+                OverpassAPIProvider overpassProvider = new OverpassAPIProvider();
+                String osmTag = mFeatureTag;
+                if (osmTag == null){
+                    message = mFeatureTag + " không phải là loại danh mục.";
+                    return null;
+                }
+                String oUrl = overpassProvider.urlForPOISearch(osmTag, bb, 100, 10);
+                ArrayList<POI> pois = overpassProvider.getPOIsFromUrl(oUrl);
+                return pois;
+            }
+        }
+        protected void onPostExecute(ArrayList<POI> pois) {
+            mPOIs = pois;
+            if (mFeatureTag == null || mFeatureTag.equals(""))
+            {
+                //no search, no message
+            }
+            else if (mPOIs == null)
+            {
+                if (message != null)
+                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                else
+                    Toast.makeText(getApplicationContext(), "Sự cố khi tìm kiếm "+mFeatureTag+ " POI.", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(), "Tìm thấy "+mPOIs.size() +"bệnh viện gần bạn.", Toast.LENGTH_SHORT).show();
+            }
+            updateUIWithPOI(mPOIs, mFeatureTag);
+        }
+    }
+
+
+    void updateUIWithPOI(ArrayList<POI> pois, String featureTag){
+        map.getOverlays().clear();
+        map.getOverlays().add(mLocationOverlay);
+        if (pois != null){
+            for (POI poi:pois){
+                Marker poiMarker = new Marker(map);
+                poiMarker.setTitle(poi.mType);
+                poiMarker.setSnippet(poi.mDescription);
+                poiMarker.setPosition(poi.mLocation);
+                Drawable icon = ResourcesCompat.getDrawable(getResources(), R.drawable.maker_hospital, null);
+                poiMarker.setAnchor(Marker.ANCHOR_CENTER, 1.0f);
+                poiMarker.setIcon(icon);
+                map.getOverlays().add(poiMarker);
+            }
+        }
+        map.invalidate();
+    }
+
 
     void AccessPermission()
     {
@@ -114,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage("Vị trí đã tắt trên thiết bị của bạn? Cần phải bật nó lên")
                 .setCancelable(false)
-                .setPositiveButton("Đi đến cài đặt để bật vị trí",
+                .setPositiveButton("Đi đến cài đặt để bật Vị trí",
                         new DialogInterface.OnClickListener(){
                             public void onClick(DialogInterface dialog, int id){
                                 Intent callGPSSettingIntent = new Intent(
@@ -192,19 +318,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void onResume(){
         super.onResume();
-        //this will refresh the osmdroid configuration on resuming.
-        //if you make changes to the configuration, use
-        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        //Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
+
         map.onResume(); //needed for compass, my location overlays, v6.0.0 and up
     }
 
     public void onPause(){
         super.onPause();
-        //this will refresh the osmdroid configuration on resuming.
-        //if you make changes to the configuration, use
-        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        //Configuration.getInstance().save(this, prefs);
+
         map.onPause();  //needed for compass, my location overlays, v6.0.0 and up
     }
 }

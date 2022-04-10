@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.covidapp">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -15,17 +16,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CovidApp">
-        <activity android:name=".MainActivity">
+        <activity android:name=".DiaDiemCoF0Activity">
+
+        </activity>
+        <activity android:name=".TrungTamYTeGanBan">
+
+        </activity>
+        <activity android:name=".ThongTinCaNhanActivity" />
+        <activity android:name=".HomeActivity" />
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".ThongTinCaNhanActivity" />
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".SplashActivity"/>
         <activity android:name=".DangNhapActivity" />
         <activity android:name=".EnterOTPActivity" />
         <activity android:name=".ThongTinCaNhiemActivity" />

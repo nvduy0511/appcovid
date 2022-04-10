@@ -1,5 +1,6 @@
 package com.example.covidapp;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.AppCompatButton;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +30,7 @@ import com.ramotion.foldingcell.FoldingCell;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import retrofit2.Call;
@@ -57,10 +60,16 @@ public class KhaiBaoYTeFragment extends Fragment {
 
 
     private TextInputEditText tilHoTen;
+    private TextInputEditText tiNamSinh;
     private TextInputLayout tlNgayThangNamSinh;
     private TextInputLayout tlCCCD;
-    private TextInputLayout tlDiaChi;
     private TextInputLayout tlSDT;
+
+    private TextInputLayout tlTinhThanPho;
+    private TextInputLayout tlQuanHuyen;
+    private TextInputLayout tlPhuongXa;
+    private TextInputLayout tlThonXom;
+
 
     private AppCompatButton btnSubmit;
     private KhaiBaoYTe mKhaiBaoYTe;
@@ -111,13 +120,28 @@ public class KhaiBaoYTeFragment extends Fragment {
         tilHoTen = (TextInputEditText) mView.findViewById(R.id.txti_hoTen);
         tlNgayThangNamSinh = (TextInputLayout) mView.findViewById(R.id.l_NamSinh);
         tlCCCD = (TextInputLayout) mView.findViewById(R.id.l_CCCD);
-        tlDiaChi = (TextInputLayout) mView.findViewById(R.id.lDiaChi);
+
+        tlTinhThanPho = (TextInputLayout) mView.findViewById(R.id.lTinhThanhPho);
+        tlQuanHuyen = (TextInputLayout) mView.findViewById(R.id.lQuanHuyen);
+        tlPhuongXa = (TextInputLayout) mView.findViewById(R.id.lPhuongXa);
+        tlThonXom = (TextInputLayout) mView.findViewById(R.id.lThonXomSoNha);
+
+
         tlSDT = (TextInputLayout) mView.findViewById(R.id.l_SDT);
 
         tvHoTenColab = (TextView) mView.findViewById(R.id.tv_hoTenColab);
         tvHotenExtend = (TextView) mView.findViewById(R.id.tv_hoTenExtend);
 
         btnSubmit = (AppCompatButton) mView.findViewById(R.id.btn_GuiPhieuKhaiBao);
+        tiNamSinh = (TextInputEditText) mView.findViewById(R.id.txti_NamSinh);
+        setStatusEditText(false);
+
+        tiNamSinh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chonNgay();
+            }
+        });
 
         tilHoTen.addTextChangedListener(new TextWatcher() {
             @Override
@@ -172,11 +196,30 @@ public class KhaiBaoYTeFragment extends Fragment {
         });
     }
 
+    private void chonNgay(){
+        Calendar calendar = Calendar.getInstance();
+        int ngay = calendar.get(Calendar.DATE);
+        int thang = calendar.get(Calendar.MONTH);
+        int nam = calendar.get(Calendar.YEAR);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int nam, int thang, int ngay) {
+                calendar.set(nam, thang, ngay);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                tiNamSinh.setText(simpleDateFormat.format(calendar.getTime()));
+            }
+        }, nam, thang, ngay);
+        datePickerDialog.show();
+    }
+
     private void setStatusEditText(boolean checked) {
         tilHoTen.setEnabled(checked);
         tlNgayThangNamSinh.setEnabled(checked);
         tlCCCD.setEnabled(checked);
-        tlDiaChi.setEnabled(checked);
+        tlTinhThanPho.setEnabled(checked);
+        tlQuanHuyen.setEnabled(checked);
+        tlPhuongXa.setEnabled(checked);
+        tlThonXom.setEnabled(checked);
         tlSDT.setEnabled(checked);
         rdGioiTinhNu.setEnabled(checked);
         rdGioiTinh.setEnabled(checked);
@@ -202,7 +245,14 @@ public class KhaiBaoYTeFragment extends Fragment {
         tilHoTen.setText(conNguoi.getHoTen());
         tlNgayThangNamSinh.getEditText().setText(conNguoi.getNgaySinh());
         tlCCCD.getEditText().setText(conNguoi.getCmnd());
-        tlDiaChi.getEditText().setText(conNguoi.getDiaChi());
+        String diaChi[] = conNguoi.getDiaChi().split(", ");
+        if(diaChi.length == 4)
+        {
+            tlTinhThanPho.getEditText().setText(diaChi[3]);
+            tlQuanHuyen.getEditText().setText(diaChi[2]);
+            tlPhuongXa.getEditText().setText(diaChi[1]);
+            tlThonXom.getEditText().setText(diaChi[0]);
+        }
         tlSDT.getEditText().setText(conNguoi.getSdt());
         switch (conNguoi.getGioiTinh())
         {
@@ -221,7 +271,9 @@ public class KhaiBaoYTeFragment extends Fragment {
             ConNguoi cn = new ConNguoi();
             cn.setHoTen(tilHoTen.getText().toString().trim());
             cn.setCmnd(tlCCCD.getEditText().getText().toString().trim());
-            cn.setDiaChi(tlDiaChi.getEditText().getText().toString().trim());
+            String dc = tlThonXom.getEditText().getText().toString().trim()+", "+tlPhuongXa.getEditText().getText().toString().trim()+", "
+                    +tlQuanHuyen.getEditText().getText().toString().trim()+", "+tlTinhThanPho.getEditText().getText().toString().trim();
+            cn.setDiaChi(dc);
             cn.setNgaySinh(tlNgayThangNamSinh.getEditText().getText().toString().trim());
             cn.setSdt(tlSDT.getEditText().getText().toString().trim());
             cn.setGioiTinh(rdGioiTinh.isChecked() == true ? "Nam":"Nữ");

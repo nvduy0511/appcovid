@@ -37,6 +37,8 @@ public class HomeActivity extends AppCompatActivity {
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
     private TextView tvTenNguoiDung;
     private RelativeLayout rlKhaiBaoYTe;
+    private RelativeLayout rlTrungTamYTe;
+    private RelativeLayout rlDiaDiemF0;
     private RelativeLayout rlThongTinCaNhiem;
     private RelativeLayout rlThongTinCaNhan;
     private String uID;
@@ -82,6 +84,8 @@ public class HomeActivity extends AppCompatActivity {
 
         tvTenNguoiDung = findViewById(R.id.tv_user_name);
         rlKhaiBaoYTe = findViewById((R.id.rectangle_3));
+        rlTrungTamYTe = findViewById((R.id.rectangle_2));
+        rlDiaDiemF0 = findViewById((R.id.rectangle_1));
         rlThongTinCaNhiem = findViewById(R.id.btn_thongtincanhiem);
         rlThongTinCaNhan =  findViewById(R.id.btn_thongtincanhan);
         linearLayoutXinChao = findViewById(R.id.linearXinChao);
@@ -107,6 +111,22 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(HomeActivity.this, KhaiBaoYTe.class);
                 intent.putExtra("cmnd",cmnd);
+                startActivity(intent);
+            }
+        });
+
+        rlTrungTamYTe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeActivity.this, TrungTamYTeGanBan.class);
+                startActivity(intent);
+            }
+        });
+
+        rlDiaDiemF0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeActivity.this, DiaDiemCoF0Activity.class);
                 startActivity(intent);
             }
         });

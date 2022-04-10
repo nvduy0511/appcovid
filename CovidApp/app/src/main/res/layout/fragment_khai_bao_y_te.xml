@@ -25,7 +25,6 @@
                 android:layout_margin="10dp"
                 folding-cell:animationDuration="800"
                 folding-cell:backSideColor="#C6C4C4">
-                ​
 
                 <FrameLayout
                     android:id="@+id/cell_content_view"
@@ -64,7 +63,7 @@
                             style="?android:attr/borderlessButtonStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/l_SDT"
+                            android:layout_below="@+id/lThonXomSoNha"
                             android:layout_alignParentRight="true"
                             android:drawableRight="@drawable/ic_colab"
                             android:text="Thu gọn"
@@ -101,7 +100,9 @@
                             android:hint="Năm Sinh">
 
                             <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/txti_NamSinh"
                                 android:inputType="date"
+                                android:drawableEnd="@drawable/ic_calendar"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content" />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -159,30 +160,11 @@
                         </RadioGroup>
 
                         <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/lDiaChi"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/radioGroup"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="15dp"
-                            android:hint="Đia chỉ">
-
-                            <com.google.android.material.textfield.TextInputEditText
-
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-
-                                />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/l_SDT"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/lDiaChi"
+                            android:layout_below="@+id/radioGroup"
                             android:layout_marginLeft="15dp"
                             android:layout_marginTop="10dp"
                             android:layout_marginRight="15dp"
@@ -192,6 +174,65 @@
                                 android:inputType="number"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/lTinhThanhPho"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/l_SDT"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="15dp"
+                            android:hint="Tỉnh/ Thành phố">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/lQuanHuyen"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/lTinhThanhPho"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="15dp"
+                            android:hint="Quận/ Huyện">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/lPhuongXa"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/lQuanHuyen"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="15dp"
+                            android:hint="Phường/ Xã">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/lThonXomSoNha"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/lPhuongXa"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="15dp"
+                            android:hint="Thôn xóm số nhà">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
                         </com.google.android.material.textfield.TextInputLayout>
                     </RelativeLayout>
                 </FrameLayout>
@@ -242,7 +283,6 @@
                             android:textSize="12sp" />
                     </RelativeLayout>
                 </FrameLayout>
-                ​
             </com.ramotion.foldingcell.FoldingCell>
 
             <!--Question 1-->
